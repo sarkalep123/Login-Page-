@@ -1,6 +1,9 @@
 # Login-Page-
+
 This is my third repo
+
 <-- Login-signup Html Code -->
+
 <div class="heading">
     <h2>Login / Signup with Local Storage</h2>
 </div>
@@ -19,17 +22,17 @@ This is my third repo
     </div>
     <button type="submit" (click)="registerForm()">Register</button>
 
-
-    <p (click)="toggleForm('login')">
+<p (click)="toggleForm('login')">
         Already have an account ? <span class="highlighted">LOGIN</span>
     </p>
+
 </form>
 
 <!-- LOGIN FORM -->
  <form *ngIf="activeForm === 'login'">
     <h2>LOGIN</h2>
     
-    <div class="form-group">
+<div class="form-group">
     <input type="email" name="email" [ngModel] ="loginObj.email" placeholder="Email">
     </div>
     <div class="form-group">
@@ -42,193 +45,7 @@ This is my third repo
 </form>
 </div>
 
-<-- Login-signup CSS Code -->
 
- body{
-    margin: 0;
-    padding: 0;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-} 
-
-.heading{
-    background: linear-gradient(135deg, #318aff,#000000); 
-    padding: 10px 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 2px;
-    color:yellow;
-}
-.loginsignup-container{
-    max-width: 500px;
-    margin: 30px auto 10px auto;
-    padding: 40px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 0 40px rgba(0,0,0,0.1);
-
-}
-.loginsignup-container h2{
-    color: #318aff;
-    text-align: center;
-    margin-bottom: 20px;
-    font-family: fantasy;
-    font-size: 35px;
-    margin-top: 0px;
-
-}
-
-.form-group{
-    margin-bottom: 20px;
-}
-
-.form-group input {
-    outline: none;
-    width: 100%;
-    padding: 15px 0px 10px 5px;
-    border-radius: 6px;
-    border: 1px solid #318aff;
-    background-color: #f5f5f5;
-}
-button{
-    width: 100%;
-    padding: 15px;
-    border: none;
-    border-radius:6px;
-    color: white;
-    font-size: 25px;
-    background: linear-gradient(135deg, #318aff,#000000);
-    transition: 0.5s ease;
-
-}
-button:hover{
-    background: linear-gradient(135deg,#000000 #318aff);
-}
-p{
-    margin-top: 8px;
-    text-align: center;
-    cursor: pointer;
-    color:black;
-
-}
-.highlighted:hover{
-    text-decoration: underline;
-    color: #318aff;
-
-}
-
-<-- Login-signup TypeScript Code -->
-
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-
-@Component({
-  selector: 'app-login-singup',
-  imports: [FormsModule,CommonModule],
-  templateUrl: './login-signup.html',
-  styleUrl: './login-signup.css',
-})
-export class loginsignup {
-
-activeForm : 'login' | 'register' = 'register';
-registerObj:registerModel= new registerModel();
-loginObj: loginModel= new loginModel();
-
-constructor(private _snackbar:MatSnackBar, private _router: Router){}
-
-toggleForm(form : 'login' | 'register')
-{
-
-  this.activeForm = form;
-}
-
-registerForm()
-{
-  debugger;
-  const localusers = localStorage.getItem('users');
-  if(localusers != null)
-  {
-    const users = JSON.parse(localusers);
-    users.push(this.registerObj);
-    localStorage.setItem('users',JSON.stringify(users));
-  } else{
-    const users = [];
-    users.push(this.registerObj);
-  localStorage.setItem('users',JSON.stringify(users))
-  }
-  this. _snackbar.open('User register successfully', 'Close');
-}
-  
-loginForm()
-{
-  debugger;
-const localusers = localStorage.getItem('users');
-if(localusers != null){
-  const users = JSON.parse(localusers);
-  const isUserExist = users.find((user:registerModel)=> user.email == this.loginObj.email && user.password == this.loginObj.password)
-  if(isUserExist != undefined)
-  {
-    this._snackbar.open('Login Successfull','Close');
-    localStorage.setItem('loggedUser',JSON.stringify(isUserExist));
-    this._router.navigateByUrl('dashboard');
-}else{
-  this._snackbar.open('Email or Password is incorrect!');
-}
-  }
-}
-}
-
-export class registerModel{
-  name:string;
-  email:string;
-  password:string;
-  constructor(){
-  this.name=" ";
-  this.email=" ";
-  this.password=" ";
-  }
-}
-export class loginModel{
-
-  email:string;
-  password:string;
-  constructor(){
-  this.email=" ";
-  this.password=" ";
-  }
-}
-<-- App.Router.Ts -->
-
-import { loginsignup } from './pages/login-signup/login-signup';
-import { Layout}  from './pages/layout/layout';
-import { Dashboard } from './pages/dashboard/dashboard';
-
-export const routes: Routes = [
-{
-        path:'',
-        redirectTo:'loginsignup',
-        pathMatch:'full'
-    },
-    {
-        path:'loginsignup',
-        component:loginsignup
-    },
-
-    {
-        path:'',
-        component:Layout,
-        children:
-        [
-            {
-                path:'dashboard',
-                component:Dashboard
-            }
-        ]
-    }
-    ];
 
 
 
